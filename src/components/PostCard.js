@@ -12,7 +12,7 @@ const PostCard = ({ Post }) => {
     };
 
     const handlePostClick = () => {
-        navigate(`/post/${Post._id}`, { state: { postId: Post._id } });
+        navigate(`/post/${Post._id}`);
     };
 
     return (
@@ -21,7 +21,7 @@ const PostCard = ({ Post }) => {
             <div className='flex flex-col items-start justify-center gap-2'>
                 <span>{Post.dateCreated.substring(0, 10)}</span>
                 <h1 className='font-bold'>{Post.title}</h1>
-                <span>
+                <span key={1}>
                     {truncateText(Post.introduction, 75)}
                 </span>
                 <span className='flex gap-2'>

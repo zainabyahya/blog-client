@@ -5,9 +5,7 @@ import { getCommentsByPost } from "../actions/commentActions.js"
 const CommentList = ({ post }) => {
     const postId = post._id;
     const dispatch = useDispatch();
-    const commentsList = useSelector((state) => state.comment.foundComments); 
-    console.log("🚀 ~ CommentList ~ commentsList:", commentsList)
-
+    const commentsList = useSelector((state) => state.comment.foundComments);
     useEffect(() => {
         dispatch(getCommentsByPost(postId));
     }, [dispatch, postId]);

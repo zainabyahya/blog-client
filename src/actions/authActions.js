@@ -8,7 +8,6 @@ export function loginUser(email, password) {
             const res = await axios.post(`${BASE_URL}/auth/login`, { email, password });
             const token = res.data;
             localStorage.setItem("token", token);
-
             dispatch({ type: "auth/loginSuccess", payload: token });
         } catch (error) {
             console.error("Error logging in:", error);

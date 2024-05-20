@@ -14,8 +14,6 @@ export function fetchComments() {
 }
 
 export function addComment(token, newComment) {
-    console.log("🚀 ~ addComment ~ token:", token)
-    console.log("🚀 ~ addComment ~ newComment:", newComment)
     return async (dispatch) => {
         try {
             const headers = {

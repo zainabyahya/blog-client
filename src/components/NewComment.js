@@ -35,7 +35,7 @@ const NewComment = ({ postId }) => {
                     onChange={(e) => setComment(e.target.value)}
                 />
                 <button type='submit' className='w-1/5 bg-[#212529] text-white p-3 rounded-md'>
-                    Add Comment
+                    Add
                 </button>
             </form>
         </div>

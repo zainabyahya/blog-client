@@ -6,21 +6,37 @@ const initialState = {
 }
 
 const postReducer = (state = initialState, action) => {
+    console.log("🚀 ~ postReducer ~ state:", state)
     switch (action.type) {
         case "posts/fetch":
             return { ...state, allPosts: action.payload };
         case "posts/add":
-            return { ...state, newPost: action.payload };
+            return {
+                ...state,
+                allPosts: [...state.allPosts, action.payload.newPost]
+            };
         case "posts/delete":
-            return { ...state, allPosts: [...state.postList.filter(post => post.id !== action.payload)] };
+            return {
+                ...state,
+                allPosts: state.allPosts.filter(post => post._id !== action.payload)
+            }
         case "posts/update":
             return { ...state, allPosts: action.payload };
         case "posts/getById":
-            return { ...state, singlePost: action.payload };
+            return {
+                ...state,
+                singlePost: action.payload
+
+            };
         case "posts/getByAuthor":
-            return { ...state, foundPosts: action.payload };
-        case "posts/geByCategory":
-            return { ...state, foundPosts: action.payload };
+            return { ...state, allPosts: action.payload };
+        case "posts/getByCategory":
+            return { ...state, allPosts: action.payload };
+
+        // return {
+        //     ...state,
+        //     foundPosts: action.payload.foundPosts
+        // };
         default:
             break;
     }
