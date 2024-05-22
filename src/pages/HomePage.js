@@ -3,37 +3,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../actions/categoryActions';
 import { fetchPosts, getPostByCategory } from '../actions/postActions';
 import PostCard from '../components/PostCard';
+import LandingPage from '../components/LandingPage';
 
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const [selectedCategory, setSelectedCategory] = useState({ "name": "all" });
+    const [dropdownVisible, setDropdownVisible] = useState(false);
     const allCategories = useSelector((state) => state.category.allCategories);
     const posts = useSelector((state) => state.post.allPosts);
-    console.log("🚀 ~ HomePage ~ posts:", posts)
-
-    console.log("🚀 ~ HomePage ~ allCategories:", allCategories)
-
-    const handleCategorySelect = (category) => {
-        setSelectedCategory(category);
-    };
 
     const handleAllPosts = () => {
-        setSelectedCategory(null);
         dispatch(fetchPosts());
     }
-
+    const toggleDropdown = () => {
+        setDropdownVisible(!dropdownVisible);
+    };
     const handlePostsByCategory = (category) => {
-        setSelectedCategory(category);
+        setDropdownVisible(false);
         dispatch(getPostByCategory(category._id))
     }
 
     useEffect(() => {
         dispatch(fetchCategories());
-    }, [dispatch, selectedCategory]);
+        dispatch(fetchPosts());
+    }, []);
 
     return (
-        <div className="container">
+        <div className="py-5">
+            <LandingPage />
             <div className="flex md:flex-row gap-4">
                 <div className="flex rounded">
                     <div key={0} className="cursor-pointer mb-2 hover:bg-gray-300 rounded p-2" onClick={() => handleAllPosts()}>
@@ -45,24 +42,27 @@ const HomePage = () => {
                         </div>
                     ))}
                     <div className="relative">
-                        <div className="cursor-pointer mb-2 hover:bg-gray-300 rounded p-2">
+                        <div className="cursor-pointer mb-2 hover:bg-gray-300 rounded p-2" onClick={toggleDropdown}>
                             More <span className="text-xs">&#9660;</span>
                         </div>
-                        <div className="absolute right-0 w-48 bg-white rounded shadow-md hidden">
+                        {dropdownVisible && (<div className="absolute right-0 w-48 bg-white rounded shadow-md">
                             {allCategories.slice(3).map(category => (
-                                <div key={category._id} className="cursor-pointer px-4 py-2 hover:bg-gray-300" onClick={() => handleCategorySelect(category)}>
+                                <div key={category._id} className="cursor-pointer px-4 py-2 hover:bg-gray-300" onClick={() => handlePostsByCategory(category)}>
                                     {category.name}
                                 </div>
                             ))}
-                        </div>
+                        </div>)
+                        }
                     </div>
                 </div>
             </div>
-            <div className="w-full">
-                <div className='flex flex-wrap gap-5'>
-                    {posts.map((post) => (
+            <div className="w-full m-auto">
+                <div className='flex flex-wrap justify-center md:justify-start gap-5 m-auto'>
+                    {posts ? posts.map((post) => (
                         <PostCard key={post._id} Post={post} />
-                    ))}
+                    )) :
+                        <div></div>
+                    }
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addComment } from '../actions/commentActions.js';
 
@@ -20,9 +20,6 @@ const NewComment = ({ postId }) => {
 
         setComment('');
     };
-
-    // useEffect(() => {
-    // }, [dispatch]);
     return (
         <div className='py-5'>
             <h1 className='font-bold py-3 '>Add comment</h1>
@@ -34,7 +31,7 @@ const NewComment = ({ postId }) => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 />
-                <button type='submit' className='w-1/5 bg-[#212529] text-white p-3 rounded-md'>
+                <button type='submit' className='w-1/5 bg-[#212529] text-white p-3 rounded-md dark:bg-white dark:text-[#212529]' >
                     Add
                 </button>
             </form>

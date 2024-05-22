@@ -4,28 +4,27 @@ import { addPost } from '../actions/postActions';
 import Modal from 'react-modal';
 import { IoClose } from "react-icons/io5";
 
-Modal.setAppElement('#root'); // Ensure accessibility
+Modal.setAppElement('#root');
 
 const AddPost = ({ isOpen, onRequestClose }) => {
     const [title, setTitle] = useState('');
     const [introduction, setIntroduction] = useState('');
     const [content, setContent] = useState('');
-    const [image, setImage] = useState(null); // State to hold the selected image file
+    const [image, setImage] = useState(null);
     const [tags, setTags] = useState('');
+
     const dispatch = useDispatch();
 
     const handlePost = (e) => {
         e.preventDefault();
-        const formData = new FormData(); // Create a FormData object to hold form data including file
+        const formData = new FormData();
         formData.append('title', title);
         formData.append('introduction', introduction);
         formData.append('content', content);
-        formData.append('image', image); // Append the image file
+        formData.append('image', image);
         formData.append('tags', tags);
         formData.append('dateCreated', new Date());
-
-        const token = localStorage.getItem("token");
-        dispatch(addPost(token, formData));
+        dispatch(addPost(formData));
         onRequestClose();
     };
 
@@ -37,7 +36,7 @@ const AddPost = ({ isOpen, onRequestClose }) => {
             className="modal"
             overlayClassName="overlay"
         >
-            <div className='py-5'>
+            <div className='py-5 '>
                 <div className="flex justify-between items-center mb-3">
                     <h1 className='font-bold'>Add Post</h1>
                     <button onClick={onRequestClose}><IoClose className="text-2xl cursor-pointer" /></button>
@@ -64,6 +63,7 @@ const AddPost = ({ isOpen, onRequestClose }) => {
                         placeholder='Content'
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        style={{ height: '200px' }}
                         required
                     />
                     <input
@@ -80,7 +80,7 @@ const AddPost = ({ isOpen, onRequestClose }) => {
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
                     />
-                    <button type='submit' className='bg-[#212529] text-white p-3 rounded-md'>
+                    <button type='submit' className='bg-[#212529] text-white p-3 rounded-md '>
                         Add Post
                     </button>
                 </form>

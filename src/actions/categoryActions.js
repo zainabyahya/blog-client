@@ -1,11 +1,10 @@
-import axios from "axios";
+import instance from "../utils/api";
 
-const BASE_URL = "http://localhost:8000"
 
 export function fetchCategories() {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/categories`);
+            const res = await instance.get(`/categories`);
             dispatch({ type: "categories/fetch", payload: res.data.allCategories });
         } catch (error) {
             console.error("Error fetching categories :", error);
@@ -19,8 +18,8 @@ export function addCategory(token, newCategory) {
             const headers = {
                 Authorization: `Bearer ${token}`
             };
-            const res = await axios.post(
-                `http://localhost:8000/categories`, newCategory, { headers }
+            const res = await instance.post(
+                `/categories`, newCategory, { headers }
             );
             dispatch({ type: "categories/add", payload: res.data });
         } catch (error) {
@@ -32,7 +31,7 @@ export function addCategory(token, newCategory) {
 export function getCategoryById(categoryId) {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/${categoryId}`);
+            const res = await instance.get(`/${categoryId}`);
             dispatch({ type: "categories/getById", payload: res.data });
         } catch (error) {
             console.error("Error fetching categories:", error);

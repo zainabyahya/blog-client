@@ -8,7 +8,6 @@ const EditPost = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const post = useSelector((state) => state.post.singlePost.foundPost);
-    const token = useSelector((state) => state.auth.currentToken);
 
     const [title, setTitle] = useState('');
     const [introduction, setIntroduction] = useState('');
@@ -30,8 +29,7 @@ const EditPost = () => {
         e.preventDefault();
         const updatedTags = tags.split(',').map(tag => tag.trim());
         const updatedPost = { ...post, title, introduction, content, tags: updatedTags };
-
-        dispatch(updatePost(updatedPost, token)).then(() => {
+        dispatch(updatePost(updatedPost)).then(() => {
             navigate(`/post/${post._id}`);
         });
     };
@@ -40,53 +38,53 @@ const EditPost = () => {
         <div className="max-w-2xl mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Edit Post</h2>
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label className="block text-gray-700">Title</label>
+                <div className="mb-4 ">
+                    <label className="block text-[#212529 ]  dark:text-white">Title</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-3 py-2 border rounded"
+                        className="text-[#212529]  w-full px-3 py-2 border rounded"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Introduction</label>
+                    <label className="block text-[#212529 ] dark:text-white">Introduction</label>
                     <textarea
                         value={introduction}
                         onChange={(e) => setIntroduction(e.target.value)}
-                        className="w-full px-3 py-2 border rounded"
+                        className="text-[#212529]  w-full px-3 py-2 border rounded"
                         required
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Content</label>
+                    <label className="block text-[#212529 ]  dark:text-white">Content</label>
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="w-full px-3 py-2 border rounded"
+                        className="text-[#212529]  w-full px-3 py-2 border rounded h-lvh"
                         required
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Tags (space separated)</label>
+                    <label className="block text-[#212529 ]  dark:text-white">Tags (space separated)</label>
                     <input
                         type="text"
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
-                        className="w-full px-3 py-2 border rounded"
+                        className="text-[#212529] w-full px-3 py-2 border rounded"
                     />
                 </div>
                 <div className="flex justify-end">
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                        className="px-4 py-2 bg-[#212529] text-white rounded-md dark:text-[#212529] dark:bg-white"
                     >
                         Update Post
                     </button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
 

@@ -5,6 +5,7 @@ import categoryReducer from './categoryReducer';
 import userReducer from './userReducer';
 import commentReducer from './commentReducer';
 import bookmarkReducer from './bookmarkReducer';
+import likeReducer from './likeReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     category: categoryReducer,
     user: userReducer,
     comment: commentReducer,
-    bookmark: bookmarkReducer
+    bookmark: bookmarkReducer,
+    like: likeReducer
 });
 
 export default rootReducer;

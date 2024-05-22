@@ -14,9 +14,7 @@ const Login = () => {
     const handleLogin = () => {
         dispatch(loginUser({ email, password }));
         navigate("/")
-
     };
-
 
     return (
         <div className="flex justify-center items-center mt-20">

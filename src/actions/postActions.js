@@ -1,10 +1,9 @@
-import axios from "axios";
+import instance from "../utils/api";
 
-const BASE_URL = "http://localhost:8000"
 export function fetchPosts() {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/posts`);
+            const res = await instance.get(`/posts`);
             dispatch({ type: "posts/fetch", payload: res.data.allPosts });
         } catch (error) {
             console.error("Error fetching posts:", error);
@@ -12,14 +11,12 @@ export function fetchPosts() {
     };
 }
 
-export function updatePost(updatedPost, token) {
+export function updatePost(updatedPost) {
     return async (dispatch) => {
         try {
-            const headers = {
-                Authorization: `Bearer ${token}`
-            };
-            const res = await axios.put(
-                `${BASE_URL}/posts/${updatedPost._id}`, updatedPost, { headers }
+
+            const res = await instance.put(
+                `/posts/${updatedPost._id}`, updatedPost
             );
             dispatch({ type: "posts/update", payload: res.data });
         } catch (error) {
@@ -28,14 +25,11 @@ export function updatePost(updatedPost, token) {
     };
 }
 
-export function deletePost(postId, token) {
+export function deletePost(postId) {
     return async (dispatch) => {
         try {
-            const headers = {
-                Authorization: `Bearer ${token}`
-            };
-            await axios.delete(
-                `${BASE_URL}/posts/${postId}`, { headers }
+            await instance.delete(
+                `/posts/${postId}`
             );
             dispatch({ type: "posts/delete", payload: postId });
         } catch (error) {
@@ -43,14 +37,11 @@ export function deletePost(postId, token) {
         }
     };
 }
-export function addPost(token, newPost) {
+export function addPost(newPost) {
     return async (dispatch) => {
         try {
-            const headers = {
-                Authorization: `Bearer ${token}`
-            };
-            const res = await axios.post(
-                `http://localhost:8000/posts`, newPost, { headers }
+            const res = await instance.post(
+                `/posts`, newPost
             );
             dispatch({ type: "posts/add", payload: res.data });
         } catch (error) {
@@ -60,13 +51,10 @@ export function addPost(token, newPost) {
 }
 
 export function getPostByCategory(categoryId) {
-    console.log("🚀 ~ getPostByCategory ~ categoryId:", categoryId)
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/posts/category/${categoryId}`);
-            console.log("🚀 ~ return ~ res.data:", res.data)
+            const res = await instance.get(`/posts/category/${categoryId}`);
             dispatch({ type: "posts/getByCategory", payload: res.data.foundPosts });
-            console.log("-------------------------------🚀 ~ return ~ res.data:", res.data)
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
@@ -75,8 +63,8 @@ export function getPostByCategory(categoryId) {
 export function getPostByAuthor(authorId) {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/posts/author/${authorId}`);
-            dispatch({ type: "posts/getByAuthor", payload: res.data });
+            const res = await instance.get(`/posts/author/${authorId}`);
+            dispatch({ type: "posts/getByAuthor", payload: res.data.foundPosts });
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
@@ -85,7 +73,7 @@ export function getPostByAuthor(authorId) {
 export function getPostById(postId) {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/posts/${postId}`);
+            const res = await instance.get(`/posts/${postId}`);
             dispatch({ type: "posts/getById", payload: res.data });
         } catch (error) {
             console.error("Error fetching posts:", error);

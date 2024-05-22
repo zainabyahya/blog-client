@@ -1,13 +1,24 @@
-import axios from "axios";
+import instance from "../utils/api";
+import decodeJWT from "../utils/jwt";
 
-const BASE_URL = "http://localhost:8000";
+
+
+export const checkForToken = (receivedToken) => {
+    if (receivedToken) {
+        instance.defaults.headers.common.Authorization = `Bearer ${receivedToken}`
+        localStorage.setItem("token", receivedToken);
+        const decodedToken = decodeJWT(receivedToken);
+        return decodedToken
+    }
+    return null;
+}
 
 export function loginUser(email, password) {
     return async (dispatch) => {
         try {
-            const res = await axios.post(`${BASE_URL}/auth/login`, { email, password });
-            const token = res.data;
-            localStorage.setItem("token", token);
+            const res = await instance.post(`/auth/login`, { email, password });
+            const receivedToken = res.data;
+            const token = checkForToken(receivedToken)
             dispatch({ type: "auth/loginSuccess", payload: token });
         } catch (error) {
             console.error("Error logging in:", error);
@@ -15,24 +26,19 @@ export function loginUser(email, password) {
     };
 }
 
-// reducers/authReducer.js
-
 export const signUpUser = ({ formData }) => {
     return async (dispatch) => {
         try {
 
-            const res = await axios.post('http://localhost:8000/auth/signup', formData, {
+            const res = await instance.post('/auth/signup', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            const token = res.data;
-
-            localStorage.setItem('token', token);
-
-
+            const receivedToken = res.data;
+            const token = checkForToken(receivedToken)
+            console.log("🚀 ~ return ~ receivedToken:", receivedToken)
             dispatch({ type: 'auth/signupSuccess', payload: token });
-
         } catch (error) {
             console.error('Error signing up:', error);
         }

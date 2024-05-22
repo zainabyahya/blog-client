@@ -1,5 +1,6 @@
 const initialState = {
     allBookmarks: [],
+    userBookmarks: {},
     newBookmark: {},
 }
 
@@ -10,12 +11,25 @@ const bookmarkReducer = (state = initialState, action) => {
                 ...state, allBookmarks
                     : action.payload
             };
-        case "bookmarks/add":
-            return { ...state, allBookmarks: [...state.allBookmarks, action.payload.newBookmark] };
+        case "bookmarks/fetchByUser":
+            return {
+                ...state, userBookmarks
+                    : action.payload
+            };
+        case "bookmarks/handleBookmark":
+            // return { ...state, allBookmarks: [...state.allBookmarks, action.payload.newBookmark] };
+            return {
+                ...state, userBookmarks
+                    : action.payload
+            };
         case "bookmarks/delete":
             return {
-                ...state, allBookmarks
-                    : [...state.allBookmarks.filter(bookmark => bookmark.id !== action.payload)]
+                ...state,
+                allBookmarks: state.allBookmarks.map(bookmark =>
+                    bookmark._id === action.payload.bookmarkId
+                        ? { ...bookmark, posts: bookmark.posts.filter(post => post !== action.payload.postId) }
+                        : bookmark
+                )
             };
         default:
             break;

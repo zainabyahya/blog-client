@@ -1,11 +1,10 @@
-import axios from "axios";
+import instance from "../utils/api";
 
-const BASE_URL = "http://localhost:8000";
 
 export function getUsers() {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/users`);
+            const res = await instance.get(`/users`);
             dispatch({ type: "users/fetch", payload: res.data.allUsers });
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -16,8 +15,8 @@ export function getUsers() {
 export function getUserById(userId) {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/users/${userId}`);
-            dispatch({ type: "users/getById", payload: res.data });
+            const res = await instance.get(`/users/${userId}`);
+            dispatch({ type: "users/getById", payload: res.data.foundUser });
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -28,8 +27,8 @@ export function getUserById(userId) {
 export function updateUser(updatedUser) {
     return async (dispatch) => {
         try {
-            const res = await axios.put(
-                `${BASE_URL}/users/${updatedUser._id}`, updatedUser
+            const res = await instance.put(
+                `/users/${updatedUser._id}`, updatedUser
             );
             dispatch({ type: "users/update", payload: res.data });
         } catch (error) {
@@ -41,8 +40,8 @@ export function updateUser(updatedUser) {
 export function deleteUser(userId) {
     return async (dispatch) => {
         try {
-            await axios.delete(
-                `${BASE_URL}/users/${userId}`
+            await instance.delete(
+                `/users/${userId}`
             );
             dispatch({ type: "users/delete", payload: userId });
         } catch (error) {

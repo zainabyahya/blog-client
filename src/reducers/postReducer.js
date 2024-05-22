@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const postReducer = (state = initialState, action) => {
-    console.log("🚀 ~ postReducer ~ state:", state)
     switch (action.type) {
         case "posts/fetch":
             return { ...state, allPosts: action.payload };

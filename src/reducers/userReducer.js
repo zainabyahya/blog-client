@@ -1,11 +1,8 @@
-
-
 const initialState = {
     allUsers: [],
     singleUser: {},
 
 }
-
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {

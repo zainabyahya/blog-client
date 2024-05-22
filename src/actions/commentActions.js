@@ -1,11 +1,10 @@
-import axios from "axios";
+import instance from "../utils/api";
 
-const BASE_URL = "http://localhost:8000"
 
 export function fetchComments() {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/comments`);
+            const res = await instance.get(`/comments`);
             dispatch({ type: "comments/fetch", payload: res.data.allComments });
         } catch (error) {
             console.error("Error fetching comments :", error);
@@ -19,8 +18,8 @@ export function addComment(token, newComment) {
             const headers = {
                 Authorization: `Bearer ${token}`
             };
-            const res = await axios.post(
-                `http://localhost:8000/comments`, newComment, { headers }
+            const res = await instance.post(
+                `/comments`, newComment, { headers }
             );
             dispatch({ type: "comments/add", payload: res.data });
         } catch (error) {
@@ -32,7 +31,7 @@ export function addComment(token, newComment) {
 export function getCommentsByPost(postId) {
     return async (dispatch) => {
         try {
-            const res = await axios.get(`${BASE_URL}/comments/post/${postId}`);
+            const res = await instance.get(`/comments/post/${postId}`);
             dispatch({ type: "comments/getByPost", payload: res.data.foundComments });
         } catch (error) {
             console.error("Error fetching comments:", error);
@@ -43,8 +42,8 @@ export function getCommentsByPost(postId) {
 export function deleteComment(commentId) {
     return async (dispatch) => {
         try {
-            await axios.delete(
-                `${BASE_URL}/comments/${commentId}`
+            await instance.delete(
+                `/comments/${commentId}`
             );
             dispatch({ type: "comments/delete", payload: commentId });
         } catch (error) {
