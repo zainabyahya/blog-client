@@ -18,6 +18,7 @@ const PostDetails = ({ post }) => {
     const likes = useSelector((state) => state.like.allLikes);
     const likedPost = useSelector((state) => state.like.postById);
     const currentUser = useSelector(state => state.auth.user)
+    let count = likedPost ? likedPost.likeCount : post.likeCount;
 
     const handleEdit = () => {
         navigate(`/edit/${post._id}`);
@@ -39,9 +40,10 @@ const PostDetails = ({ post }) => {
             userId: currentUser.userId,
             postId: postId
         };
+        setLiked(!liked);
+
         dispatch(handleLike(newLike));
 
-        setLiked(!liked);
     };
 
     useEffect(() => {
@@ -51,14 +53,19 @@ const PostDetails = ({ post }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        const bookmark = bookmarks.some(bookmark => bookmark.user === currentUser.userId &&
-            bookmark.posts.some(post => post._id === postId)
-        );
-        setSaved(bookmark);
+        if (currentUser) {
+            const bookmark = bookmarks.some(bookmark => bookmark.user === currentUser.userId &&
+                bookmark.posts.some(post => post._id === postId)
+            );
+            setSaved(bookmark);
 
-        const like = likes.some(like =>
-            (like.post === postId && like.user === currentUser.userId));
-        setLiked(like);
+            const like = likes.some(like =>
+                (like.post === postId && like.user === currentUser.userId));
+            setLiked(like);
+
+            count = likedPost?.likeCount;
+        }
+
     }, [likes, bookmarks]);
 
 
@@ -120,7 +127,7 @@ const PostDetails = ({ post }) => {
                                 </button>
                             }
                             <span>
-                                {likedPost ? likedPost.likeCount : post.likeCount} Likes
+                                {count} Likes
                             </span>
 
                         </div>

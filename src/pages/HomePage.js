@@ -29,8 +29,9 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div className="py-5">
+        <div className="py-5 mb-10">
             <LandingPage />
+            <hr />
             <div className="flex md:flex-row gap-4">
                 <div className="flex rounded">
                     <div key={0} className="cursor-pointer mb-2 hover:bg-gray-300 rounded p-2" onClick={() => handleAllPosts()}>
